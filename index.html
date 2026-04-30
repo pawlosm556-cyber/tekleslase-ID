@@ -1,0 +1,1222 @@
+<!doctype html>
+<html lang="am" class="scroll-smooth">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="description"
+            content="የተክለሥላሴ ሰንበት ትምህርት ቤት ዲጂታል መታወቂያ - መረጃ፣ ጥቅሞች እና የውስጥ አሰራር"
+        />
+        <meta name="theme-color" content="#0f172a" />
+        <title>ዲጂታል መታወቂያ | የተክለሥላሴ ሰ/ት/ቤት</title>
+
+        <!-- Tailwind CSS (ለዘመናዊ ዲዛይን) -->
+        <script src="https://cdn.tailwindcss.com"></script>
+        <!-- Font Awesome (ለአይኮኖች) -->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+        <!-- Google Fonts (ለአማርኛ ፊደላት ማሳመሪያ) -->
+        <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
+            rel="stylesheet"
+        />
+        <!-- Alpine.js (ለሞባይል ሜኑ) -->
+        <script
+            defer
+            src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
+        ></script>
+
+        <!-- Tailwind Configuration - Extended from your original -->
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            church: {
+                                gold: "#dcb346", // Main Gold
+                                gold_dark: "#c99e32",
+                                gold_light: "#e5c46b",
+                                navy: "#0f172a", // Main Dark Background
+                                navy_light: "#1e293b",
+                                accent: "#8b5cf6", // Not used much, but kept from original
+                                primaryBlue: "#1d4ed8", // Deep Blue for ID Card
+                            },
+                        },
+                        fontFamily: {
+                            sans: [
+                                "Noto Sans Ethiopic",
+                                "Outfit",
+                                "sans-serif",
+                            ],
+                        },
+                        backgroundImage: {
+                            "hero-pattern":
+                                "linear-gradient(rgba(15, 23, 42, 0.88), rgba(15, 23, 42, 0.88)), url('https://images.unsplash.com/photo-1548625361-ec858f79fbc3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')",
+                            "texture-pattern":
+                                "url('https://www.transparenttextures.com/patterns/stardust.png')",
+                        },
+                        animation: {
+                            "float-slow": "float 6s ease-in-out infinite",
+                            shine: "shine 4s infinite",
+                            "pulse-gold":
+                                "pulse-gold 3s ease-in-out infinite alternate",
+                        },
+                        keyframes: {
+                            float: {
+                                "0%, 100%": {
+                                    transform: "translateY(0) rotate(-1deg)",
+                                },
+                                "50%": {
+                                    transform: "translateY(-20px) rotate(1deg)",
+                                },
+                            },
+                            shine: {
+                                "0%": { left: "-100%" },
+                                "20%": { left: "200%" },
+                                "100%": { left: "200%" },
+                            },
+                            "pulse-gold": {
+                                "0%, 100%": {
+                                    boxShadow:
+                                        "0 0 20px rgba(220, 179, 70, 0.2)",
+                                },
+                                "50%": {
+                                    boxShadow:
+                                        "0 0 50px rgba(220, 179, 70, 0.5)",
+                                },
+                            },
+                        },
+                    },
+                },
+            };
+        </script>
+
+        <!-- Custom CSS for Animations and Specific Effects (Extended & Modified) -->
+        <style>
+            body {
+                font-family: "Noto Sans Ethiopic", "Outfit", sans-serif;
+                overflow-x: hidden;
+                background-color: #0f172a;
+                color: #f8fafc;
+            }
+
+            /* Hero Section specific styling for gradient overlay */
+            .hero-section {
+                background-size: cover;
+                background-position: center;
+                background-attachment: fixed;
+                min-height: 100vh;
+                position: relative;
+            }
+            .hero-overlay {
+                background: linear-gradient(
+                    to bottom,
+                    rgba(15, 23, 42, 0.95),
+                    rgba(30, 41, 59, 0.8)
+                );
+                position: absolute;
+                inset: 0;
+            }
+
+            /* Golden Text Gradients */
+            .text-gradient-gold {
+                background: linear-gradient(
+                    to right,
+                    #e5c46b,
+                    #dcb346,
+                    #c99e32
+                );
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+
+            /* Advanced Animations - Keeping the structure from your code */
+            .fade-in-up {
+                opacity: 0;
+                transform: translateY(40px);
+                animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            }
+            .fade-in-right {
+                opacity: 0;
+                transform: translateX(-40px);
+                animation: fadeInRight 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            }
+            .fade-in-left {
+                opacity: 0;
+                transform: translateX(40px);
+                animation: fadeInLeft 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            }
+            .delay-100 {
+                animation-delay: 0.1s;
+            }
+            .delay-200 {
+                animation-delay: 0.2s;
+            }
+            .delay-300 {
+                animation-delay: 0.3s;
+            }
+            .delay-400 {
+                animation-delay: 0.4s;
+            }
+            .delay-500 {
+                animation-delay: 0.5s;
+            }
+            @keyframes fadeInUp {
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            @keyframes fadeInRight {
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+            @keyframes fadeInLeft {
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+
+            /* Modern Glass Buttons */
+            .glass-btn {
+                position: relative;
+                overflow: hidden;
+                background: rgba(255, 255, 255, 0.05);
+                backdrop-filter: blur(15px);
+                -webkit-backdrop-filter: blur(15px);
+                border: 1px solid rgba(220, 179, 70, 0.3);
+                transition: all 0.4s ease;
+                z-index: 1;
+            }
+            .glass-btn::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(220, 179, 70, 0.15);
+                transform: scaleX(0);
+                transform-origin: right;
+                transition: transform 0.4s ease;
+                z-index: -1;
+            }
+            .glass-btn:hover {
+                border-color: rgba(220, 179, 70, 0.8);
+                box-shadow: 0 0 25px rgba(220, 179, 70, 0.2);
+                color: #dcb346;
+            }
+            .glass-btn:hover::before {
+                transform: scaleX(1);
+                transform-origin: left;
+            }
+
+            /* Solid Gold Button with Shine Effect */
+            .gold-btn {
+                position: relative;
+                overflow: hidden;
+                background: #dcb346;
+                color: #0f172a;
+                transition: all 0.3s ease;
+                z-index: 1;
+                box-shadow: 0 8px 25px rgba(220, 179, 70, 0.4);
+            }
+            .gold-btn::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 50%;
+                height: 100%;
+                background: linear-gradient(
+                    to right,
+                    rgba(255, 255, 255, 0),
+                    rgba(255, 255, 255, 0.5),
+                    rgba(255, 255, 255, 0)
+                );
+                transform: skewX(-25deg);
+                animation: shine 4s infinite;
+                z-index: -1;
+            }
+            .gold-btn:hover {
+                background: #e5c46b;
+                transform: translateY(-5px);
+                box-shadow: 0 15px 35px rgba(220, 179, 70, 0.6);
+            }
+
+            /* Scrolled Navigation Background */
+            .nav-scrolled {
+                background: rgba(15, 23, 42, 0.98);
+                backdrop-filter: blur(18px);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+                padding-top: 0.8rem !important;
+                padding-bottom: 0.8rem !important;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+            }
+
+            /* Custom Scrollbar */
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
+            ::-webkit-scrollbar-track {
+                background: #0f172a;
+            }
+            ::-webkit-scrollbar-thumb {
+                background: #334155;
+                border-radius: 4px;
+            }
+            ::-webkit-scrollbar-thumb:hover {
+                background: #dcb346;
+            }
+
+            /* Feature Cards for Benefits Section */
+            .benefit-card {
+                background: linear-gradient(
+                    145deg,
+                    rgba(30, 41, 59, 0.7) 0%,
+                    rgba(15, 23, 42, 0.9) 100%
+                );
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                border-radius: 1.5rem;
+                padding: 2.5rem 2rem;
+                transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                position: relative;
+                overflow: hidden;
+            }
+            .benefit-card::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 4px;
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    #dcb346,
+                    transparent
+                );
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+            .benefit-card:hover {
+                transform: translateY(-15px);
+                border-color: rgba(220, 179, 70, 0.3);
+                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            }
+            .benefit-card:hover::before {
+                opacity: 1;
+            }
+            .icon-box {
+                width: 70px;
+                height: 70px;
+                border-radius: 16px;
+                background: rgba(220, 179, 70, 0.15);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 1.5rem;
+                color: #dcb346;
+                font-size: 2.2rem;
+                transition: all 0.4s ease;
+                transform: rotate(-5deg);
+            }
+            .benefit-card:hover .icon-box {
+                background: #dcb346;
+                color: #0f172a;
+                transform: rotate(0deg) scale(1.1);
+                border-radius: 50%;
+            }
+
+            /* Ultra-Modern Landscape ID Card Mockup - Masterpiece */
+            .id-card-mockup-landscape {
+                width: 400px; /* Wider for landscape */
+                height: 250px; /* Shorter for landscape */
+                background: linear-gradient(
+                    135deg,
+                    #1e3a8a 0%,
+                    #0c4a6e 100%
+                ); /* Deep blue to dark teal */
+                border-radius: 28px; /* Softer rounded corners */
+                box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7); /* Deep shadow */
+                position: relative;
+                overflow: hidden;
+                color: #e2e8f0; /* Soft white text */
+                animation:
+                    float-slow 6s ease-in-out infinite,
+                    pulse-gold 3s ease-in-out infinite alternate; /* Floating and glow */
+            }
+
+            .id-card-mockup-landscape::before {
+                /* Background subtle pattern */
+                content: "";
+                position: absolute;
+                inset: 0;
+                background-image: url('data:image/svg+xml;utf8,<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0l20 20-20 20L0 20z" fill="rgba(255,255,255,0.08)"/></svg>');
+                opacity: 0.6;
+                z-index: 1;
+            }
+
+            .id-shimmer-hologram {
+                /* Dynamic Shimmer/Hologram Effect */
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 200%;
+                height: 100%;
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.1) 20%,
+                    rgba(255, 255, 255, 0.3) 25%,
+                    rgba(255, 255, 255, 0.1) 30%,
+                    transparent 40%
+                );
+                animation: shine 6s infinite;
+                transform: skewX(-20deg); /* Angled shimmer */
+                pointer-events: none;
+                z-index: 2;
+            }
+
+            /* Inner ID Card Elements - Ensure high contrast and clean look */
+            .id-photo-frame {
+                width: 90px;
+                height: 90px;
+                border-radius: 50%; /* Circular photo */
+                background: #0f172a;
+                border: 3px solid #dcb346; /* Gold border */
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            }
+            .id-qr-box {
+                width: 60px;
+                height: 60px;
+                background: #fff;
+                padding: 4px;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            }
+            .id-info-text {
+                font-family: "Outfit", sans-serif; /* Modern tech font */
+                letter-spacing: 0.05em;
+            }
+            .id-info-label {
+                font-size: 0.65rem;
+                color: #94a3b8;
+                font-weight: 500;
+                text-transform: uppercase;
+            }
+            .id-info-value {
+                font-size: 0.85rem;
+                color: #f1f5f9;
+                font-weight: 700;
+            }
+            .id-logo-small {
+                height: 30px;
+                width: auto;
+                filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.5));
+            }
+        </style>
+    </head>
+
+    <!-- Alpine.js Data Context for interactions -->
+    <body
+        x-data="{ mobileMenuOpen: false, scrolled: false }"
+        @scroll.window="scrolled = (window.pageYOffset > 20)"
+        class="antialiased selection:bg-church-gold selection:text-church-navy relative"
+    >
+        <!-- ==========================================
+         HEADER & NAVIGATION BAR
+        =========================================== -->
+        <header
+            :class="{ 'nav-scrolled': scrolled }"
+            class="fixed w-full top-0 py-5 px-4 sm:px-8 lg:px-16 flex justify-between items-center z-50 transition-all duration-300"
+        >
+            <!-- Left: Logo & Church Name -->
+            <div
+                class="flex items-center space-x-3 md:space-x-4 cursor-pointer group z-50"
+            >
+                <div
+                    class="relative w-14 h-14 md:w-16 md:h-16 rounded-full bg-church-navy/80 border-2 border-church-gold shadow-\[0_0_15px_rgba(220,179,70,0.3)\] overflow-hidden group-hover:shadow-\[0_0_25px_rgba(220,179,70,0.6)\] transition-all duration-300 shrink-0 flex items-center justify-center p-1"
+                >
+                    <img
+                        src="pawlos.png"
+                        alt="የተክለሥላሴ ሎጎ"
+                        class="w-full h-full object-contain rounded-full"
+                        onerror="
+                            this.style.display = 'none';
+                            document.getElementById(
+                                'header-icon',
+                            ).style.display = 'block';
+                        "
+                    />
+                    <i
+                        id="header-icon"
+                        class="fas fa-church text-church-gold text-xl hidden"
+                    ></i>
+                </div>
+                <!-- Titles -->
+                <div class="flex flex-col">
+                    <span
+                        class="text-\[9px\] md:text-\[11px\] text-church-gold/80 font-medium tracking-widest uppercase mb-0.5 hidden sm:block"
+                        >ወልድያ ደብረብርሀን ቅድስት ሥላሴ</span
+                    >
+                    <h1
+                        class="text-xl md:text-2xl font-extrabold tracking-wide text-white drop-shadow-md"
+                    >
+                        ተክለ<span class="text-church-gold">ሥላሴ</span>
+                    </h1>
+                </div>
+            </div>
+
+            <!-- Desktop Navigation Links (Only relevant links for ID) -->
+            <nav
+                class="hidden lg:flex items-center space-x-8 bg-church-navy/40 px-8 py-3 rounded-full border border-white/5 backdrop-blur-md"
+            >
+                <a
+                    href="#home"
+                    class="text-sm font-bold text-church-gold transition-colors relative group"
+                >
+                    መነሻ
+                    <span
+                        class="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-church-gold"
+                    ></span>
+                </a>
+                <a
+                    href="#benefits"
+                    class="text-sm font-medium text-gray-300 hover:text-white transition-colors relative group"
+                >
+                    ጥቅሞች
+                    <span
+                        class="absolute -bottom-1 left-0 w-0 h-0.5 bg-church-gold transition-all group-hover:w-full"
+                    ></span>
+                </a>
+                <a
+                    href="dashboard.html"
+                    class="text-sm font-medium text-gray-300 hover:text-white transition-colors relative group"
+                >
+                    መታወቂያ አውጣ
+                    <span
+                        class="absolute -bottom-1 left-0 w-0 h-0.5 bg-church-gold transition-all group-hover:w-full"
+                    ></span>
+                </a>
+            </nav>
+
+            <!-- Right: Action Button for ID -->
+            <div class="hidden md:flex items-center space-x-4">
+                <a
+                    href="dashboard.html"
+                    class="gold-btn px-6 py-2.5 rounded-full font-bold text-sm transition-all duration-300 flex items-center group"
+                >
+                    <i
+                        class="fas fa-id-card-clip mr-2 group-hover:scale-110 transition-transform"
+                    ></i>
+                    መታወቂያ ያግኙ
+                </a>
+            </div>
+
+            <!-- Mobile Menu Hamburger Button -->
+            <button
+                @click="mobileMenuOpen = !mobileMenuOpen"
+                class="lg:hidden text-white focus:outline-none z-50 p-2 bg-white/5 rounded-lg border border-white/10"
+            >
+                <i
+                    class="fas text-xl transition-transform"
+                    :class="mobileMenuOpen ? 'fa-times rotate-90 text-church-gold' : 'fa-bars'"
+                ></i>
+            </button>
+        </header>
+
+        <!-- Mobile Navigation Fullscreen Overlay -->
+        <div
+            x-show="mobileMenuOpen"
+            style="display: none"
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 translate-x-full"
+            x-transition:enter-end="opacity-100 translate-x-0"
+            x-transition:leave="transition ease-in duration-300"
+            x-transition:leave-start="opacity-100 translate-x-0"
+            x-transition:leave-end="opacity-0 translate-x-full"
+            class="fixed inset-0 bg-church-navy/98 backdrop-blur-xl z-40 flex flex-col pt-28 px-8 lg:hidden"
+        >
+            <div class="flex flex-col space-y-6">
+                <a
+                    href="#home"
+                    @click="mobileMenuOpen = false"
+                    class="text-2xl font-bold text-white flex items-center"
+                    ><i class="fas fa-home w-8 text-church-gold"></i> መነሻ</a
+                >
+                <a
+                    href="#benefits"
+                    @click="mobileMenuOpen = false"
+                    class="text-2xl font-bold text-gray-300 flex items-center"
+                    ><i class="fas fa-handshake w-8 text-church-gold"></i>
+
+                    ጥቅሞች</a
+                >
+                <a
+                    href="dashboard.html"
+                    @click="mobileMenuOpen = false"
+                    class="text-2xl font-bold text-gray-300 flex items-center"
+                    ><i class="fas fa-id-card-clip w-8 text-church-gold"></i>
+
+                    መታወቂያ አውጣ</a
+                >
+                <div class="h-px w-full bg-gray-800 my-4"></div>
+                <!-- Mobile Login Button -->
+                <a
+                    href="dashboard.html"
+                    class="w-full py-4 rounded-xl bg-church-gold text-church-navy font-extrabold text-lg text-center shadow-lg shadow-church-gold/20 flex justify-center items-center"
+                >
+                    <i class="fas fa-arrow-alt-circle-right mr-3"></i> አሁኑኑ ያግኙ
+                </a>
+                <!-- Contact Info in Mobile Menu -->
+                <div class="mt-auto pb-10 text-center">
+                    <p class="text-gray-500 text-sm mb-2">ለበለጠ መረጃ</p>
+                    <p class="text-church-gold font-bold">+251 909870439</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+         HERO SECTION (MAIN LANDING AREA - Digital ID Focused)
+        =========================================== -->
+        <main>
+            <section
+                id="home"
+                class="hero-section flex items-center justify-center pt-24 pb-16 relative overflow-hidden"
+                style="
+                    background-image: url(&quot;https://images.unsplash.com/photo-1548625361-ec858f79fbc3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80&quot;);
+                "
+            >
+                <div class="hero-overlay"></div>
+                <div class="bg-texture absolute inset-0 opacity-10"></div>
+
+                <!-- Decorative Background Glows -->
+                <div
+                    class="absolute top-1/4 left-1/4 w-96 h-96 bg-church-gold/20 rounded-full blur-\[100px\] pointer-events-none float-anim-delayed"
+                ></div>
+                <div
+                    class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-900/40 rounded-full blur-\[100px\] pointer-events-none float-anim"
+                ></div>
+
+                <div
+                    class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-center text-center lg:text-left gap-16"
+                >
+                    <!-- Left Side: Text Content -->
+                    <div
+                        class="lg:w-1/2 flex flex-col items-center lg:items-start"
+                    >
+                        <!-- Badge -->
+                        <div
+                            class="inline-flex items-center px-5 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-8 fade-in-up"
+                        >
+                            <span
+                                class="flex h-2.5 w-2.5 rounded-full bg-church-gold mr-3 animate-ping"
+                            ></span>
+                            <span
+                                class="text-xs sm:text-sm font-semibold tracking-wider text-gray-200 uppercase"
+                            >
+                                የአባላት ዲጂታል አገልግሎት
+                            </span>
+                        </div>
+
+                        <!-- Main Headline -->
+                        <h2
+                            class="text-5xl sm:text-6xl md:text-7xl lg:text-\[5.5rem\] font-extrabold mb-6 leading-\[1.2\] tracking-tight fade-in-up delay-100 drop-shadow-2xl"
+                        >
+                            የዘመኑ <br class="hidden md:block" />
+                            <span class="text-gradient-gold italic font-serif"
+                                >ዲጂታል መታወቂያ</span
+                            >
+                        </h2>
+
+                        <!-- Description Paragraph -->
+                        <p
+                            class="text-base sm:text-lg md:text-xl text-gray-300 max-w-xl leading-relaxed mb-10 font-light fade-in-up delay-200 drop-shadow-lg px-4 lg:px-0"
+                        >
+                            በወልድያ ደብረብርሀን ቅድስት ሥላሴ የተክለሥላሴ ሰንበት ትምህርት ቤት፤ ለአባላት
+                            አስተዳደር፣ ቁጥጥር እና አገልግሎት የሚውል ልዩ ዲጂታል መለያ።
+                        </p>
+
+                        <!-- Call to Action Button -->
+                        <div class="fade-in-up delay-300">
+                            <a
+                                href="dashboard.html"
+                                class="gold-btn px-10 py-5 rounded-xl font-bold text-lg md:text-xl flex items-center justify-center shadow-lg"
+                            >
+                                <i
+                                    class="fas fa-id-card-clip mr-3 opacity-80"
+                                ></i>
+                                መታወቂያዎን ያግኙ
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Right Side: Ultra-Modern ID Card Mockup (Landscape) -->
+                    <div
+                        class="lg:w-1/2 flex justify-center perspective-1000 fade-in-up delay-400"
+                    >
+                        <div
+                            class="id-card-mockup-landscape p-8 flex items-center justify-center transform scale-90 lg:scale-100"
+                        >
+                            <div class="id-shimmer-hologram"></div>
+                            <div class="relative z-20 flex w-full h-full">
+                                <!-- Left Section: Photo & QR -->
+                                <div
+                                    class="w-1/3 flex flex-col items-center justify-between py-2 border-r border-white/10 pr-6"
+                                >
+                                    <div class="id-photo-frame">
+                                        <i
+                                            class="fas fa-user-circle text-5xl text-gray-700"
+                                        ></i>
+                                    </div>
+                                    <div class="id-qr-box">
+                                        <i
+                                            class="fas fa-qrcode text-church-navy text-4xl"
+                                        ></i>
+                                    </div>
+                                    <p
+                                        class="text-[0.6rem] text-gray-500 font-bold uppercase tracking-widest"
+                                    >
+                                        Verified
+                                    </p>
+                                </div>
+                                <!-- Right Section: Info -->
+                                <div
+                                    class="w-2/3 flex flex-col justify-between pl-6 py-2"
+                                >
+                                    <!-- Top: Logo & Title -->
+                                    <div
+                                        class="flex items-center justify-between mb-4"
+                                    >
+                                        <img
+                                            src="pawlos.png"
+                                            class="id-logo-small filter drop-shadow-md"
+                                            onerror="
+                                                this.src =
+                                                    'https://via.placeholder.com/30/fbbf24/000000?text=P'
+                                            "
+                                        />
+                                        <div class="text-right leading-tight">
+                                            <h4
+                                                class="text-[0.6rem] font-black text-church-gold uppercase tracking-tight"
+                                            >
+                                                ተክለሥላሴ ሰ/ት/ቤት
+                                            </h4>
+                                            <p
+                                                class="text-[0.5rem] text-blue-200"
+                                            >
+                                                Digital Identity Unit
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <!-- Middle: Member Details -->
+                                    <div class="space-y-2 id-info-text">
+                                        <div>
+                                            <p class="id-info-label">ሙሉ ስም</p>
+                                            <p class="id-info-value">
+                                                አባ ገብረማርያም
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <p class="id-info-label">መለያ ቁጥር</p>
+                                            <p class="id-info-value">
+                                                TS-ID-001
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <p class="id-info-label">ክፍል</p>
+                                            <p class="id-info-value">መዘምራን</p>
+                                        </div>
+                                    </div>
+                                    <!-- Bottom: Usage Reminder -->
+                                    <p
+                                        class="text-[0.6rem] text-gray-600 font-bold italic mt-auto"
+                                    >
+                                        Internal Use Only.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Fade to blend sections -->
+                <div
+                    class="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-church-navy via-church-navy/80 to-transparent z-0"
+                ></div>
+            </section>
+
+            <!-- ==========================================
+             BENEFITS OF THE DIGITAL ID (Replaced old sections)
+        =========================================== -->
+            <section id="benefits" class="py-24 relative bg-church-navy">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div
+                        class="text-center mb-16 md:mb-24 observer-element fade-in-up"
+                    >
+                        <h3
+                            class="text-church-gold font-bold tracking-widest text-sm uppercase mb-2"
+                        >
+                            ለምን ዲጂታል መታወቂያ?
+                        </h3>
+                        <h2
+                            class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-6"
+                        >
+                            የዲጂታል መለያው
+                            <span class="text-church-gold">ጥቅሞች</span>
+                        </h2>
+                        <p class="text-gray-400 max-w-2xl mx-auto text-lg">
+                            የተክለሥላሴ ሰንበት ትምህርት ቤት ዲጂታል መታወቂያ ለአባላት እና ለአስተዳደር
+                            የሚያመጣቸው ዋነኛ ጥቅሞች።
+                        </p>
+                    </div>
+
+                    <div
+                        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                    >
+                        <!-- Benefit Card 1: Portability & Accessibility -->
+                        <div
+                            class="benefit-card observer-element fade-in-up delay-100"
+                        >
+                            <div class="icon-box">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <h4 class="text-2xl font-bold text-white mb-4">
+                                ተንቀሳቃሽነትና ተደራሽነት
+                            </h4>
+                            <p
+                                class="text-gray-400 text-base leading-relaxed mb-4"
+                            >
+                                መታወቂያዎ ሁልጊዜ በስልክዎ ላይ ይገኛል። በኪስዎ መያዝ ወይም የመርሳት
+                                ጭንቀት አይኖርብዎትም። በማንኛውም ጊዜ እና ቦታ በቀላሉ ማሳየት ይችላሉ።
+                            </p>
+                            <ul class="text-sm text-gray-500 space-y-2">
+                                <li class="flex items-center">
+                                    <i
+                                        class="fas fa-check text-green-500 mr-2"
+                                    ></i>
+                                    ከስልክዎ የማይለይ
+                                </li>
+                                <li class="flex items-center">
+                                    <i
+                                        class="fas fa-check text-green-500 mr-2"
+                                    ></i>
+                                    የመጥፋት ስጋት የለም
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Benefit Card 2: Efficiency & Control -->
+                        <div
+                            class="benefit-card observer-element fade-in-up delay-200"
+                        >
+                            <div class="icon-box">
+                                <i class="fas fa-fingerprint"></i>
+                            </div>
+                            <h4 class="text-2xl font-bold text-white mb-4">
+                                ቀልጣፋ ቁጥጥርና አስተዳደር
+                            </h4>
+                            <p
+                                class="text-gray-400 text-base leading-relaxed mb-4"
+                            >
+                                በQR ኮድ የታገዘ በመሆኑ፣ የሰንበት ትምህርት ቤቱ መግቢያ ላይ እና
+                                በመርሃ-ግብሮች ላይ የአባላትን መገኘት (Attendance) በፍጥነት እና
+                                በትክክል ለመመዝገብ ያስችላል።
+                            </p>
+                            <ul class="text-sm text-gray-500 space-y-2">
+                                <li class="flex items-center">
+                                    <i
+                                        class="fas fa-check text-green-500 mr-2"
+                                    ></i>
+                                    ፈጣን የአባልነት ማረጋገጫ
+                                </li>
+                                <li class="flex items-center">
+                                    <i
+                                        class="fas fa-check text-green-500 mr-2"
+                                    ></i>
+                                    የመረጃ ትክክለኛነት
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Benefit Card 3: Modernity & Cost-Effectiveness -->
+                        <div
+                            class="benefit-card observer-element fade-in-up delay-300"
+                        >
+                            <div class="icon-box">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                            <h4 class="text-2xl font-bold text-white mb-4">
+                                ዘመናዊነትና ወጪ ቆጣቢነት
+                            </h4>
+                            <p
+                                class="text-gray-400 text-base leading-relaxed mb-4"
+                            >
+                                ከወረቀት እና ከፕላስቲክ መታወቂያዎች ይልቅ ዘመናዊ፣ ለአካባቢ ተስማሚ እና
+                                የህትመት ወጪዎችን የሚቀንስ ስርዓት ነው።
+                            </p>
+                            <ul class="text-sm text-gray-500 space-y-2">
+                                <li class="flex items-center">
+                                    <i
+                                        class="fas fa-check text-green-500 mr-2"
+                                    ></i>
+                                    የሰንበት ት/ቤቱን ገፅታ ያጎላል
+                                </li>
+                                <li class="flex items-center">
+                                    <i
+                                        class="fas fa-check text-green-500 mr-2"
+                                    ></i>
+                                    የህትመት ወጪ የለውም
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Usage Clarification -->
+                    <div class="mt-20 text-center observer-element fade-in-up">
+                        <div
+                            class="bg-red-900/20 border border-red-700/50 p-6 rounded-2xl max-w-3xl mx-auto shadow-lg"
+                        >
+                            <p
+                                class="text-red-300 font-bold text-lg leading-relaxed"
+                            >
+                                <i
+                                    class="fas fa-exclamation-triangle text-red-500 mr-3"
+                                ></i>
+                                ይህ ዲጂታል መታወቂያ ለወልድያ ደብረብርሀን ቅድስት ሥላሴ የተክለሥላሴ
+                                ሰንበት ትምህርት ቤት የውስጥ አሰራር ቁጥጥር እና አገልግሎት ማሳለጫ ብቻ
+                                እንዲያገለግል ተደርጎ የተዘጋጀ ነው። ከዚህ ውጪ ለሌላ ህጋዊ መታወቂያነት
+                                አያገለግልም።
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==========================================
+             FINAL CALL TO ACTION
+        =========================================== -->
+            <section class="py-28 bg-church-navy relative overflow-hidden">
+                <div
+                    class="absolute inset-0 bg-church-gold/5 blur-[100px] rounded-full -z-10 animate-pulse-gold"
+                ></div>
+                <div
+                    class="max-w-4xl mx-auto px-6 text-center observer-element fade-in-up"
+                >
+                    <h2
+                        class="text-4xl md:text-5xl lg:text-7xl font-extrabold mb-10 leading-tight"
+                    >
+                        አሁን <span class="text-church-gold">ይቀላቀሉ</span> <br />
+                        እና ዲጂታል ይሁኑ!
+                    </h2>
+                    <p
+                        class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-12"
+                    >
+                        መታወቂያዎን በሰከንዶች ውስጥ ያግኙ እና የሰንበት ትምህርት ቤቱን ዘመናዊ የአገልግሎት
+                        ስርዓት አካል ይሁኑ።
+                    </p>
+                    <a
+                        href="dashboard.html"
+                        class="gold-btn px-12 py-6 rounded-2xl font-bold text-xl md:text-2xl flex items-center justify-center mx-auto max-w-xs sm:max-w-none"
+                    >
+                        <i class="fas fa-hand-pointer mr-4"></i> መታወቂያዎን ያውጡ
+                    </a>
+                </div>
+            </section>
+        </main>
+
+        <!-- ==========================================
+         FOOTER SECTION
+        =========================================== -->
+        <footer
+            class="bg-\[#05080f\] border-t border-gray-800 pt-20 pb-8 relative overflow-hidden"
+        >
+            <!-- Footer background decoration -->
+            <div
+                class="absolute top-0 right-0 w-64 h-64 bg-church-gold/5 rounded-full blur-\[80px\] pointer-events-none"
+            ></div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div
+                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 mb-16"
+                >
+                    <!-- Brand & Info (Spans 4 cols) -->
+                    <div class="lg:col-span-4">
+                        <div class="flex items-center space-x-3 mb-6">
+                            <div
+                                class="relative w-14 h-14 rounded-full bg-church-navy border border-church-gold overflow-hidden shrink-0 flex items-center justify-center p-1"
+                            >
+                                <img
+                                    src="pawlos.png"
+                                    alt="የተክለሥላሴ ሎጎ"
+                                    class="w-full h-full object-contain rounded-full"
+                                    onerror="
+                                        this.style.display = 'none';
+                                        document.getElementById(
+                                            'footer-icon',
+                                        ).style.display = 'block';
+                                    "
+                                />
+                                <i
+                                    id="footer-icon"
+                                    class="fas fa-church text-church-gold text-xl hidden"
+                                ></i>
+                            </div>
+                            <h3
+                                class="text-xl font-extrabold text-white tracking-wide"
+                            >
+                                ተክለ<span class="text-church-gold">ሥላሴ</span>
+                            </h3>
+                        </div>
+                        <p
+                            class="text-gray-400 text-sm leading-relaxed mb-8 pr-4"
+                        >
+                            የወልድያ ደብረብርሀን ቅድስት ሥላሴ ቤተክርስቲያን የተክለሥላሴ ሰንበት ትምህርት
+                            ቤት ዘመናዊ የአባላት እና መረጃ መቆጣጠሪያ ማዕከል።
+                        </p>
+                        <div class="flex space-x-4">
+                            <a
+                                href="#"
+                                class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:bg-\[#1877f2\] hover:border-transparent hover:text-white transition-all"
+                                ><i class="fab fa-facebook-f"></i
+                            ></a>
+                            <a
+                                href="#"
+                                class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:bg-\[#0088cc\] hover:border-transparent hover:text-white transition-all"
+                                ><i class="fab fa-telegram-plane"></i
+                            ></a>
+                            <a
+                                href="#"
+                                class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:bg-\[#ff0000\] hover:border-transparent hover:text-white transition-all"
+                                ><i class="fab fa-youtube"></i
+                            ></a>
+                        </div>
+                    </div>
+
+                    <!-- Quick Links (Modified for ID focus) -->
+                    <div class="lg:col-span-2">
+                        <h4
+                            class="text-white font-bold mb-6 text-lg tracking-wide"
+                        >
+                            ፈጣን ማያያዣዎች
+                        </h4>
+                        <ul class="space-y-4">
+                            <li>
+                                <a
+                                    href="#home"
+                                    class="text-gray-400 hover:text-church-gold transition-colors text-sm"
+                                    >መነሻ ገጽ</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="#benefits"
+                                    class="text-gray-400 hover:text-church-gold transition-colors text-sm"
+                                    >ጥቅሞች</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="dashboard.html"
+                                    class="text-gray-400 hover:text-church-gold transition-colors text-sm"
+                                    >መታወቂያ አውጣ</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="#"
+                                    class="text-gray-400 hover:text-church-gold transition-colors text-sm"
+                                    >የግላዊነት ፖሊሲ</a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Digital ID Actions (Replaced old System Service) -->
+                    <div class="lg:col-span-3">
+                        <h4
+                            class="text-white font-bold mb-6 text-lg tracking-wide"
+                        >
+                            የዲጂታል መታወቂያ አገልግሎት
+                        </h4>
+                        <ul class="space-y-4">
+                            <li>
+                                <a
+                                    href="dashboard.html"
+                                    class="text-gray-400 hover:text-church-gold transition-colors text-sm flex items-center"
+                                >
+                                    <i
+                                        class="fas fa-id-card-alt mr-2 text-xs"
+                                    ></i>
+                                    መታወቂያ አዘጋጅ
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href="#"
+                                    class="text-gray-400 hover:text-church-gold transition-colors text-sm flex items-center"
+                                >
+                                    <i
+                                        class="fas fa-question-circle mr-2 text-xs"
+                                    ></i>
+                                    ተደጋጋሚ ጥያቄዎች
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href="#"
+                                    class="text-gray-400 hover:text-church-gold transition-colors text-sm flex items-center"
+                                >
+                                    <i
+                                        class="fas fa-shield-alt mr-2 text-xs"
+                                    ></i>
+                                    የአጠቃቀም ደንብ
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Contact Info (Spans 3 cols) -->
+                    <div class="lg:col-span-3">
+                        <h4
+                            class="text-white font-bold mb-6 text-lg tracking-wide"
+                        >
+                            አድራሻችን
+                        </h4>
+                        <ul class="space-y-5">
+                            <li class="flex items-start">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-church-gold/10 flex items-center justify-center shrink-0 mr-3 mt-0.5"
+                                >
+                                    <i
+                                        class="fas fa-map-marker-alt text-church-gold text-sm"
+                                    ></i>
+                                </div>
+                                <span
+                                    class="text-gray-400 text-sm leading-relaxed"
+                                >
+                                    ሰሜን ወሎ፣ ወልድያ<br />ደብረብርሀን ቅድስት ሥላሴ ቤተክርስቲያን
+                                </span>
+                            </li>
+                            <li class="flex items-center">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-church-gold/10 flex items-center justify-center shrink-0 mr-3"
+                                >
+                                    <i
+                                        class="fas fa-phone-alt text-church-gold text-sm"
+                                    ></i>
+                                </div>
+                                <span class="text-gray-400 text-sm"
+                                    >+251 911 23 45 67</span
+                                >
+                            </li>
+                            <li class="flex items-center">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-church-gold/10 flex items-center justify-center shrink-0 mr-3"
+                                >
+                                    <i
+                                        class="fas fa-envelope text-church-gold text-sm"
+                                    ></i>
+                                </div>
+                                <span class="text-gray-400 text-sm"
+                                    >tekleslase725@gmail.com</span
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Bottom Copyright Bar -->
+                <div
+                    class="border-t border-gray-800/80 pt-8 flex flex-col md:flex-row justify-between items-center gap-4"
+                >
+                    <p class="text-gray-500 text-sm text-center md:text-left">
+                        &copy; 2026 የተክለሥላሴ ሰንበት ት/ቤት ዲጂታል መለያ። ሁሉም መብት በህግ
+                        የተጠበቀ ነው።
+                    </p>
+                    <div class="flex items-center space-x-6 text-sm">
+                        <a
+                            href="#"
+                            class="text-gray-500 hover:text-church-gold transition-colors"
+                            >የግላዊነት ፖሊሲ</a
+                        >
+                        <span class="text-gray-700">•</span>
+                        <a
+                            href="#"
+                            class="text-gray-500 hover:text-church-gold transition-colors"
+                            >የአጠቃቀም ደንብ</a
+                        >
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Interactive Scroll Observer for Animations (kept from your code) -->
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const observerOptions = {
+                    root: null,
+                    rootMargin: "0px",
+                    threshold: 0.15,
+                };
+                const observer = new IntersectionObserver(
+                    (entries, observer) => {
+                        entries.forEach((entry) => {
+                            if (entry.isIntersecting) {
+                                if (
+                                    entry.target.classList.contains(
+                                        "fade-in-up",
+                                    )
+                                ) {
+                                    entry.target.style.animationPlayState =
+                                        "running";
+                                }
+                                if (
+                                    entry.target.classList.contains(
+                                        "observer-element",
+                                    )
+                                ) {
+                                    entry.target.style.opacity = "1";
+                                    if (
+                                        entry.target.classList.contains(
+                                            "fade-in-left",
+                                        ) ||
+                                        entry.target.classList.contains(
+                                            "fade-in-right",
+                                        )
+                                    ) {
+                                        entry.target.style.transform =
+                                            "translateX(0)";
+                                    } else {
+                                        entry.target.style.transform =
+                                            "translateY(0)";
+                                    }
+                                }
+                                observer.unobserve(entry.target);
+                            }
+                        });
+                    },
+                    observerOptions,
+                );
+
+                const elementsToAnimate = document.querySelectorAll(
+                    ".observer-element, .fade-in-up, .fade-in-right, .fade-in-left",
+                );
+                elementsToAnimate.forEach((el) => {
+                    el.style.opacity = "0"; // Initial state for fade-in animations
+                    observer.observe(el);
+                });
+            });
+        </script>
+    </body>
+</html>
