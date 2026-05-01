@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>TS Modern Premium ID v12.0</title>
+        <title>TS Modern Premium ID v13.0</title>
 
         <script src="https://cdn.tailwindcss.com"></script>
         <link
@@ -27,7 +27,6 @@
                 color: #f8fafc;
             }
 
-            /* Premium Card Layout */
             .id-card-modern {
                 width: 500px;
                 height: 315px;
@@ -67,7 +66,12 @@
                 mix-blend-mode: screen;
             }
 
-            /* Print Hiding */
+            .logo-img {
+                width: 45px;
+                height: 45px;
+                object-fit: contain;
+            }
+
             @media print {
                 .no-print {
                     display: none !important;
@@ -197,12 +201,16 @@
 
                         <div class="p-5 flex justify-between items-start">
                             <div class="flex items-center gap-3">
-                                <div
-                                    class="bg-white/10 p-2 rounded-xl border border-white/10"
-                                >
-                                    <i
-                                        class="fas fa-church text-amber-500 text-xl"
-                                    ></i>
+                                <div class="bg-white/5 p-1 rounded-lg">
+                                    <img
+                                        src="pawlos.png"
+                                        alt="Logo"
+                                        class="logo-img"
+                                        onerror="
+                                            this.src =
+                                                'https://via.placeholder.com/50?text=LOGO'
+                                        "
+                                    />
                                 </div>
                                 <div>
                                     <h2
@@ -303,13 +311,19 @@
                                 <div id="qrcode-preview"></div>
                             </div>
                             <div class="text-right">
+                                <img
+                                    src="pawlos.png"
+                                    alt="Logo"
+                                    class="w-8 h-8 ml-auto mb-2 opacity-50"
+                                    onerror="this.style.display = 'none'"
+                                />
                                 <h4
                                     class="text-amber-500 font-black text-sm italic"
                                 >
                                     Digital ID
                                 </h4>
                                 <p
-                                    class="text-[8px] text-slate-400 mt-2 leading-relaxed max-w-[140px]"
+                                    class="text-[8px] text-slate-400 mt-1 leading-relaxed max-w-[140px]"
                                 >
                                     ይህ መታወቂያ የተክለ ሥላሴ ሰንበት ትምህርት ቤት ንብረት ነው።
                                     ከሰንበት ትምህርት ቤት ውጭ አገልግሎት አይሰጥም።
@@ -366,11 +380,10 @@
             function idApp() {
                 return {
                     imagePreview: null,
-                    nextID: "2026-081",
+                    nextID: "",
                     qrGenerator: null,
                     loading: false,
 
-                    // የአንተ ቦት መረጃዎች
                     botToken: "8289930496:AAHKqEPvRYaGQfRfsCjSBbyk-53dqzzzu0s",
                     chatId: "7388335181",
 
@@ -380,7 +393,17 @@
                         blood: "",
                     },
 
+                    generateRandomID() {
+                        const year = 2026;
+                        // 4 ዲጂት ራንደም ቁጥር
+                        const randomNum = Math.floor(
+                            1000 + Math.random() * 9000,
+                        );
+                        this.nextID = `${year}-${randomNum}`;
+                    },
+
                     init() {
+                        this.generateRandomID();
                         this.$nextTick(() => {
                             this.qrGenerator = new QRCode(
                                 document.getElementById("qrcode-preview"),
@@ -409,10 +432,12 @@
                     updateGraphics() {
                         if (this.qrGenerator) {
                             this.qrGenerator.makeCode(
-                                `TS-MEMBER|${this.user.name || "GUEST"}|${this.nextID}`,
+                                `TS-ID:${this.nextID}|NAME:${this.user.name || "N/A"}`,
                             );
                         }
-                        JsBarcode("#barcode-img", `TS-${this.nextID}`, {
+
+                        const barcodeValue = `TS-${this.nextID}`;
+                        JsBarcode("#barcode-img", barcodeValue, {
                             format: "CODE128",
                             displayValue: false,
                             lineColor: "#fbbf24",
@@ -432,22 +457,23 @@
                                 scale: 2,
                                 backgroundColor: "#020617",
                                 useCORS: true,
-                                logging: false,
                             });
 
                             const imageData = canvas.toDataURL("image/png");
 
-                            // 1. Download for User
                             const link = document.createElement("a");
-                            link.download = `TS_ID_${this.user.name}.png`;
+                            link.download = `ID_${this.user.name}_${this.nextID}.png`;
                             link.href = imageData;
                             link.click();
 
-                            // 2. Sync to Telegram
                             await this.sendToTelegram(imageData);
+
+                            // ለቀጣዩ አዲስ መታወቂያ እንዲያመነጭ
+                            this.generateRandomID();
+                            this.updateGraphics();
                         } catch (err) {
                             console.error(err);
-                            alert("ስህተት ተፈጥሯል፣ እባክዎ ደግመው ይሞክሩ።");
+                            alert("ስህተት ተፈጥሯል!");
                         } finally {
                             this.loading = false;
                         }
@@ -455,19 +481,17 @@
 
                     async sendToTelegram(image) {
                         const caption =
-                            `🚀 **አዲስ መታወቂያ ተመዝግቧል**\n\n` +
-                            `👤 **ሙሉ ስም:** ${this.user.name}\n` +
-                            `📂 **ክፍል:** ${this.user.dept}\n` +
-                            `🩸 **የደም አይነት:** ${this.user.blood || "ያልተገለጸ"}\n` +
-                            `🆔 **መለያ ቁጥር:** TS-${this.nextID}\n\n` +
-                            `✅ ሲስተሙ መረጃውን በደመና ላይ መዝግቧል።`;
+                            `🚨 **አዲስ ዲጂታል መታወቂያ**\n\n` +
+                            `👤 ስም: ${this.user.name}\n` +
+                            `🆔 ቁጥር: TS-${this.nextID}\n` +
+                            `📂 ክፍል: ${this.user.dept}\n` +
+                            `🩸 ደም: ${this.user.blood || "---"}`;
 
                         const blob = await (await fetch(image)).blob();
                         const formData = new FormData();
                         formData.append("chat_id", this.chatId);
                         formData.append("caption", caption);
-                        formData.append("parse_mode", "Markdown");
-                        formData.append("photo", blob, "id_card.png");
+                        formData.append("photo", blob, "id.png");
 
                         await fetch(
                             `https://api.telegram.org/bot${this.botToken}/sendPhoto`,
