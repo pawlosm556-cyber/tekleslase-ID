@@ -3,12 +3,8 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>TS Premium ID - Final QR Fix</title>
+        <title>TS Navy Blue - Final Version</title>
         <script src="https://cdn.tailwindcss.com"></script>
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        />
         <script
             defer
             src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
@@ -18,144 +14,185 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
         <style>
-            @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@100..900&display=swap");
+            @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Noto+Sans+Ethiopic:wght@400;700&display=swap");
             body {
-                font-family: "Noto Sans Ethiopic", sans-serif;
-                background-color: #020617;
-                color: #f8fafc;
+                font-family: "Inter", "Noto Sans Ethiopic", sans-serif;
+                background-color: #f3f4f6;
             }
-            .id-card-modern {
-                width: 500px;
-                height: 315px;
-                background: linear-gradient(145deg, #1e293b 0%, #020617 100%);
+
+            .id-card {
+                width: 320px;
+                height: 500px;
+                background: white;
                 border-radius: 20px;
-                position: relative;
-                border: 1px solid rgba(251, 191, 36, 0.15);
                 overflow: hidden;
+                position: relative;
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
                 display: flex;
                 flex-direction: column;
             }
-            .gold-border {
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                height: 5px;
-                background: linear-gradient(90deg, #92400e, #fbbf24, #92400e);
+
+            .navy-header {
+                background-color: #1a237e;
+                height: 180px;
+                width: 100%;
+                position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: flex-end;
             }
+
+            /* ፎቶው እንዳይለጠጥ የሚያደርግ */
+            .profile-circle {
+                width: 125px;
+                height: 125px;
+                border-radius: 50%;
+                border: 5px solid white;
+                background: #f1f5f9;
+                position: absolute;
+                bottom: -62px;
+                z-index: 10;
+                object-fit: cover; /* ይህ ፎቶው ሳይለጠጥ እንዲቆረጥ ያደርጋል */
+            }
+
+            .logo-img {
+                width: 50px;
+                filter: brightness(0) invert(1);
+            } /* ሎጎውን ነጭ ለማድረግ */
+
             #qrcode-preview {
                 background: white;
                 padding: 8px;
-                border-radius: 10px;
-                display: inline-block;
+                border-radius: 8px;
             }
-            /* ድርብርብ QR እንዳይፈጠር መከላከያ */
-            #qrcode-preview canvas,
-            #qrcode-preview img {
-                margin: 0 auto;
+            .barcode-container svg {
+                width: 100%;
+                height: 45px;
             }
         </style>
     </head>
-    <body x-data="idApp()" x-init="init()" class="antialiased">
-        <div class="container mx-auto p-10 max-w-6xl">
-            <div class="grid lg:grid-cols-2 gap-12">
-                <section
-                    class="bg-slate-900/40 p-8 rounded-3xl border border-white/5 space-y-5"
+    <body x-data="idApp()" x-init="init()" class="p-6">
+        <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-start">
+            <!-- Input Panel -->
+            <div
+                class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-5"
+            >
+                <h2 class="text-2xl font-black text-blue-900 border-b pb-4">
+                    የአባል መረጃ ማሟያ
+                </h2>
+                <input
+                    type="text"
+                    x-model="user.name"
+                    @input="updateGraphics"
+                    placeholder="ሙሉ ስም"
+                    class="w-full p-4 bg-slate-50 rounded-xl border border-slate-200 outline-none focus:ring-2 ring-blue-500"
+                />
+                <select
+                    x-model="user.dept"
+                    @change="updateGraphics"
+                    class="w-full p-4 bg-slate-50 rounded-xl border border-slate-200 outline-none"
                 >
-                    <h2 class="text-amber-500 font-black">የአባል መረጃ</h2>
-                    <input
-                        type="text"
-                        x-model="user.name"
-                        @input="updateGraphics"
-                        placeholder="ሙሉ ስም"
-                        class="w-full bg-slate-800 border border-slate-700 p-4 rounded-2xl text-white outline-none focus:ring-2 ring-amber-500"
-                    />
-                    <div class="grid grid-cols-2 gap-4">
-                        <select
-                            x-model="user.dept"
-                            @change="updateGraphics"
-                            class="bg-slate-800 border border-slate-700 p-4 rounded-2xl text-white outline-none"
-                        >
-                            <option>ትምህርት ክፍል</option>
-                            <option>መዝሙር ክፍል</option>
-                            <option>ሚድያ ክፍል</option>
-                        </select>
-                        <input
-                            type="text"
-                            x-model="user.blood"
-                            @input="updateGraphics"
-                            placeholder="ደም"
-                            class="bg-slate-800 border border-slate-700 p-4 rounded-2xl text-white text-center outline-none"
+                    <option>ትምህርት ክፍል</option>
+                    <option>መዝሙር ክፍል</option>
+                    <option>ሚድያ ክፍል</option>
+                </select>
+                <input
+                    type="file"
+                    @change="imageUpload"
+                    class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                />
+
+                <button
+                    @click="processID"
+                    :disabled="loading"
+                    class="w-full py-4 bg-blue-700 text-white rounded-xl font-bold hover:bg-blue-800 transition-all shadow-lg active:scale-95"
+                >
+                    <span x-show="!loading">መዝግብና ወደ ቴሌግራም ላክ</span>
+                    <span x-show="loading">በመላክ ላይ...</span>
+                </button>
+            </div>
+
+            <!-- Preview Area (Captured) -->
+            <div
+                id="capture-area"
+                class="flex flex-col md:flex-row gap-8 bg-slate-100 p-4 rounded-xl"
+            >
+                <!-- FRONT SIDE -->
+                <div class="id-card">
+                    <div class="navy-header">
+                        <div class="absolute top-6 flex flex-col items-center">
+                            <img src="pawlos.png" class="logo-img" alt="Logo" />
+                        </div>
+                        <img
+                            :src="imagePreview || 'https://via.placeholder.com/150'"
+                            class="profile-circle"
                         />
                     </div>
-                    <input
-                        type="file"
-                        @change="imageUpload"
-                        class="text-xs text-slate-500"
-                    />
-                    <button
-                        @click="processID"
-                        class="w-full bg-amber-500 p-5 rounded-2xl font-black text-slate-900 uppercase shadow-lg shadow-amber-500/20"
-                    >
-                        መዝግብና አውርድ
-                    </button>
-                </section>
 
-                <div id="capture-area" class="space-y-8">
-                    <div class="id-card-modern">
-                        <div class="gold-border"></div>
-                        <div class="p-6 flex px-8 gap-8 items-center flex-1">
+                    <div class="mt-16 text-center px-6 flex-1">
+                        <h3
+                            class="text-xl font-black text-slate-800 uppercase"
+                            x-text="user.name || 'Natalie Doshier'"
+                        ></h3>
+                        <p
+                            class="text-blue-600 text-xs font-bold mt-1 tracking-wider"
+                            x-text="user.dept"
+                        ></p>
+
+                        <div
+                            class="mt-8 space-y-2 text-left inline-block w-full px-6"
+                        >
                             <div
-                                class="w-28 h-32 rounded-xl overflow-hidden border-2 border-amber-500/30 bg-slate-800 shrink-0"
+                                class="flex justify-between text-[10px] text-slate-400 font-bold uppercase"
                             >
-                                <img
-                                    :src="imagePreview || 'https://via.placeholder.com/150'"
-                                    class="w-full h-full object-cover"
-                                />
+                                <span>ID Number</span
+                                ><span
+                                    class="text-slate-700"
+                                    x-text="'TS-' + nextID"
+                                ></span>
                             </div>
-                            <div class="flex-1">
-                                <h3
-                                    class="text-2xl font-black italic text-white"
-                                    x-text="user.name || 'ስም አልተገለጸም'"
-                                ></h3>
-                                <p
-                                    class="text-amber-500 text-sm font-bold mt-1"
-                                    x-text="user.dept"
-                                ></p>
-                                <div class="mt-6 border-t border-white/10 pt-4">
-                                    <span
-                                        class="text-[10px] font-mono text-slate-400"
-                                        x-text="'ID: TS-' + nextID"
-                                    ></span>
-                                    <svg
-                                        id="barcode-img"
-                                        class="w-full h-8 mt-1"
-                                    ></svg>
-                                </div>
+                            <div
+                                class="flex justify-between text-[10px] text-slate-400 font-bold uppercase"
+                            >
+                                <span>Issue Date</span
+                                ><span class="text-slate-700">02/05/2026</span>
                             </div>
                         </div>
                     </div>
 
-                    <div
-                        class="id-card-modern p-10 justify-between items-center bg-slate-900"
-                    >
-                        <div class="flex flex-col items-center gap-4">
-                            <div id="qrcode-preview"></div>
-                            <div class="text-center">
-                                <h4 class="text-amber-500 font-black italic">
-                                    DIGITAL PASS
-                                </h4>
-                                <p
-                                    class="text-[10px] text-slate-400 mt-1"
-                                    x-text="'ID: TS-' + nextID"
-                                ></p>
-                            </div>
-                        </div>
-                        <p
-                            class="text-[10px] italic text-slate-500 text-center"
-                        >
-                            ይህ መታወቂያ የተክለ ሥላሴ ሰንበት ትምህርት ቤት ንብረት ነው።
+                    <div class="p-6 pt-0 barcode-container">
+                        <svg id="barcode-img"></svg>
+                    </div>
+                </div>
+
+                <!-- BACK SIDE -->
+                <div
+                    class="id-card bg-[#1a237e] text-white p-8 items-center justify-between"
+                >
+                    <div class="text-center">
+                        <img
+                            src="pawlos.png"
+                            class="logo-img mx-auto mb-2"
+                            alt="Logo"
+                        />
+                    </div>
+
+                    <div class="text-center px-4">
+                        <p class="text-[9px] leading-relaxed opacity-70">
+                            ይህ መታወቂያ በወልድያ ደብረ ብርሃን ቅድስት ሥላሴ ሰንበት ትምህርት ቤት የተሰጠ
+                            ነው። ካርዱ የቤተክርስቲያኒቱ ንብረት ነው።
                         </p>
+                    </div>
+
+                    <div class="bg-white p-2 rounded-lg">
+                        <div id="qrcode-preview"></div>
+                    </div>
+
+                    <div class="text-center">
+                        <p
+                            class="text-[10px] font-mono tracking-widest text-blue-200"
+                            x-text="'TS-VERIFIED-' + nextID"
+                        ></p>
                     </div>
                 </div>
             </div>
@@ -166,24 +203,29 @@
                 return {
                     imagePreview: null,
                     nextID: "",
-                    user: { name: "", dept: "ትምህርት ክፍል", blood: "" },
+                    loading: false,
+                    user: { name: "", dept: "ትምህርት ክፍል" },
                     qr: null,
+                    botToken: "8289930496:AAHKqEPvRYaGQfRfsCjSBbyk-53dqzzzu0s",
+                    chatID: "7388335181",
 
-                    generateRandomID() {
-                        this.nextID = Math.floor(1000 + Math.random() * 9000);
+                    generateID() {
+                        this.nextID = Math.floor(
+                            100000 + Math.random() * 900000,
+                        );
                     },
 
                     init() {
-                        this.generateRandomID();
+                        this.generateID();
                         this.$nextTick(() => {
-                            // QR ኮዱን አንድ ጊዜ ብቻ መፍጠር
                             this.qr = new QRCode(
                                 document.getElementById("qrcode-preview"),
                                 {
                                     width: 100,
                                     height: 100,
-                                    colorDark: "#000000",
+                                    colorDark: "#1a237e",
                                     colorLight: "#ffffff",
+                                    correctLevel: QRCode.CorrectLevel.H,
                                 },
                             );
                             this.updateGraphics();
@@ -191,20 +233,17 @@
                     },
 
                     updateGraphics() {
-                        // አራት ማዕዘን QR - ስም እና መታወቂያ ብቻ የያዘ
-                        const qrText = `Name: ${this.user.name || "N/A"} | ID: TS-${this.nextID}`;
-
+                        const data = `TS-ID: ${this.nextID} | Name: ${this.user.name}`;
                         if (this.qr) {
-                            this.qr.clear(); // የቀድሞውን ያጸዳል (ድርብርብ እንዳይሆን)
-                            this.qr.makeCode(qrText); // አዲሱን ይተካል
+                            this.qr.clear();
+                            this.qr.makeCode(data);
                         }
-
                         JsBarcode("#barcode-img", `TS-${this.nextID}`, {
                             format: "CODE128",
                             displayValue: false,
-                            lineColor: "#fbbf24",
+                            lineColor: "#1a237e",
                             background: "transparent",
-                            height: 30,
+                            height: 40,
                         });
                     },
 
@@ -216,33 +255,50 @@
                     },
 
                     async processID() {
-                        const dbURL =
-                            "https://script.google.com/macros/s/AKfycbwPuDUvcXhhznf2cQ77_5bDiI_Uc618qsNlImv84R3U5M15tFQIEnfTFYUiSvqmyEFNbA/exec";
-                        const el = document.getElementById("capture-area");
-                        const canvas = await html2canvas(el, {
-                            scale: 2,
-                            backgroundColor: "#020617",
-                        });
+                        if (!this.user.name) return alert("እባክዎ ስም ያስገቡ!");
+                        this.loading = true;
 
-                        // ወደ ዳታቤዝ መላክ
-                        fetch(dbURL, {
-                            method: "POST",
-                            mode: "no-cors",
-                            body: JSON.stringify({
-                                id: `TS-${this.nextID}`,
-                                name: this.user.name,
-                                dept: this.user.dept,
-                                blood: this.user.blood || "N/A",
-                            }),
-                        });
+                        try {
+                            const el = document.getElementById("capture-area");
+                            const canvas = await html2canvas(el, {
+                                scale: 3,
+                                useCORS: true,
+                            });
+                            const imageData = canvas.toDataURL("image/png");
 
-                        const link = document.createElement("a");
-                        link.download = `ID_${this.user.name}.png`;
-                        link.href = canvas.toDataURL();
-                        link.click();
+                            // 1. Download Local
+                            const link = document.createElement("a");
+                            link.download = `${this.user.name}_ID.png`;
+                            link.href = imageData;
+                            link.click();
 
-                        this.generateRandomID();
-                        this.updateGraphics();
+                            // 2. Send Photo to Telegram
+                            const blob = await (await fetch(imageData)).blob();
+                            const formData = new FormData();
+                            formData.append("chat_id", this.chatID);
+                            formData.append("photo", blob, "id_card.png");
+                            formData.append(
+                                "caption",
+                                `👤 አዲስ አባል ተመዝግቧል\n\n🔹 ስም: ${this.user.name}\n🔹 መለያ: TS-${this.nextID}\n🔹 ክፍል: ${this.user.dept}`,
+                            );
+
+                            await fetch(
+                                `https://api.telegram.org/bot${this.botToken}/sendPhoto`,
+                                {
+                                    method: "POST",
+                                    body: formData,
+                                },
+                            );
+
+                            alert("መታወቂያው ተዘጋጅቷል፤ ወደ ቴሌግራምም ተልኳል!");
+                            this.generateID();
+                            this.user.name = "";
+                        } catch (e) {
+                            alert("ስህተት ተከስቷል!");
+                            console.error(e);
+                        } finally {
+                            this.loading = false;
+                        }
                     },
                 };
             }
